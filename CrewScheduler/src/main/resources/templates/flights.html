@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CrewScheduler</title>
+	<link th:href="@{/styles/style.css}" rel="stylesheet" >
+</head>
+<body>
+<div class="nav-bar">
+	<a th:href="@{/home}">Home</a>
+	<a class="active" th:href="@{/flights}">Flights</a>
+	<a th:href="@{/pilots}">Pilots</a>
+	<a th:href="@{/airplanes}">Airplanes</a>
+	<a th:href="@{/attendants}">Flight attendants</a>
+</div>
+<!--/*@thymesVar id="flights" type="com.pa.CrewScheduler.service.AirportService"*/-->
+<div class="principal" th:switch="${#lists.size(flights)}">
+	<span class="no-table" th:case="'0'">There are no flights available!!!</span>
+	<table class="flights-table" th:case="*">
+		<thead>
+		<tr>
+			<th> Airplane name</th>
+			<th> Capacity</th>
+			<th> First name pilot</th>
+			<th> Last name pilot</th>
+			<th> Age</th>
+			<th> Type</th>
+			<th> Flight attendants</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="flight : ${flights}">
+			<!--/*@thymesVar id="flight" type="com.pa.CrewScheduler.models.Flight"*/-->
+			<td><span th:text="${flight.getAirplane().getName()}"> Airplane name</span></td>
+			<td><span th:text="${flight.getAirplane().getCapacity()}"> Capacity </span></td>
+			<td><span th:text="${flight.getPilot().getFirstName()}"> First name pilot </span></td>
+			<td><span th:text="${flight.getPilot().getLastName()}"> Last name pilot </span></td>
+			<td><span th:text="${flight.getPilot().getAge()}"> Age </span></td>
+			<td><span th:text="${flight.getPilot().getType()}"> Type </span></td>
+			<td>
+					<p th:each="flightAttendant : ${flight.getFlightAttendants()}">
+						<span th:text="${flightAttendant.getFirstName()}"> First name</span>
+						<span th:text="${flightAttendant.getLastName()}"> Last name</span>
+					</p>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<div class="airplanesWithoutStaff" th:if="${#lists.size(airplanesWithoutStaff) != 0}">
+		<a th:href="@{/airplanes-without-staff}">Airplanes without staff</a>
+	</div>
+
+
+</div>
+</body>
+</html>

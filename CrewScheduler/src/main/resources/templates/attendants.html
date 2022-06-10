@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CrewScheduler</title>
+	<link th:href="@{/styles/style.css}" rel="stylesheet" >
+</head>
+<body>
+<div class="nav-bar">
+	<a th:href="@{/home}">Home</a>
+	<a th:href="@{/flights}">Flights</a>
+	<a th:href="@{/pilots}">Pilots</a>
+	<a th:href="@{/airplanes}">Airplanes</a>
+	<a class="active" th:href="@{/attendants}">Flight attendants</a>
+</div>
+<div class="principal" th:switch="${#lists.size(attendants)}">
+	<span class="no-table" th:case="'0'">There are no attendants available!!!</span>
+	<table th:case="*">
+		<thead>
+		<tr>
+			<th> First name</th>
+			<th> Last name</th>
+			<th> Age</th>
+		</tr>
+		</thead>
+		<tbody>
+		<!--/*@thymesVar id="flightAttendant" type="com.pa.CrewScheduler.models.FlightAttendant"*/-->
+		<tr th:each="flightAttendant : ${attendants}">
+			<td><span th:text="${flightAttendant.getFirstName()}"> First name </span></td>
+			<td><span th:text="${flightAttendant.getLastName()}"> Last name </span></td>
+			<td><span th:text="${flightAttendant.getAge()}"> Age </span></td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
